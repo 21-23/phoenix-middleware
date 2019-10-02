@@ -4,6 +4,7 @@ export const CONNECTED = '@@phoenix/CONNECTED';
 export const DISCONNECTED = '@@phoenix/DISCONNECTED';
 export const MESSAGE = '@@phoenix/MESSAGE';
 export const SEND = '@@phoenix/SEND';
+export const DISCONNECT = '@@phoenix/DISCONNECT';
 
 export default function createPhoenixMiddleware(options, client = WebSocket) {
 
@@ -30,6 +31,10 @@ export default function createPhoenixMiddleware(options, client = WebSocket) {
             return function (action) {
                 if (action.type === SEND) {
                     phoenix.send(action.payload);
+                }
+
+                if (action.type === DISCONNECT) {
+                    phoenix.destroy();
                 }
 
                 return next(action);
